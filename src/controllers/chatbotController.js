@@ -36,10 +36,13 @@ let postWebhook = (req,res) =>{
 
         // Iterates over each entry
         body.entry.forEach(function(entry){
-            // Gets the message, entry.messaging is an array
-            // even though, it will contain only one message (index 0)
+            // Gets the body of the webhook event
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
+
+            // Get the sender PSID
+            let sender_psid = webhook_event.sender.id;
+            console.log('Sender PSID: ' + sender_psid);
         });
         // Returns a '200 OK' response to all requests
         res.status(200).send("EVENT_RECEIVED");
