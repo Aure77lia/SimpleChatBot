@@ -13,7 +13,7 @@ let getWebhook = (req,res) =>{
     let mode = req.query["hub.mode"];
     let token = req.query["hub.verify_token"];
     let challenge = req.query["hub.challenge"];
-    console.log("test get");
+    console.log("getWebhook started");
 
     // Check if a token and mode is in the query string of the request
     if (mode && token) {
@@ -27,11 +27,14 @@ let getWebhook = (req,res) =>{
             res.sendStatus(403);
         }
     }
+    else{
+      res.sendStatus(404);
+    }
 }
 let postWebhook = (req,res) =>{
     let body = req.body;
 
-    console.log("test post");
+    console.log("postWebhook started");
     // Checks this is an event from a page subscription
 
     if (body.object === "page") {
@@ -68,6 +71,7 @@ let postWebhook = (req,res) =>{
 function handleMessage(sender_psid, received_message) {
 
     let response;
+    console.log("handleMessage started");
   
     // Check if the message contains text
     if (received_message.text) {    
