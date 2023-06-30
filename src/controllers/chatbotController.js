@@ -1,4 +1,5 @@
 require("dotenv").config();
+import { Console } from "console";
 import request from "request";
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
@@ -12,6 +13,7 @@ let getWebhook = (req,res) =>{
     let mode = req.query["hub.mode"];
     let token = req.query["hub.verify_token"];
     let challenge = req.query["hub.challenge"];
+    console.log("test get");
 
     // Check if a token and mode is in the query string of the request
     if (mode && token) {
@@ -29,6 +31,7 @@ let getWebhook = (req,res) =>{
 let postWebhook = (req,res) =>{
     let body = req.body;
 
+    console.log("test post");
     // Checks this is an event from a page subscription
 
     if (body.object === "page") {
