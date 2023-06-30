@@ -11,9 +11,9 @@ viewEngine(app);
 
 // config body-parser
 app.use(bodyParser.json());
-console.log("json: "+bodyParser.json());
+// console.log("json: "+bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-console.log("urlencoded: "+bodyParser.urlencoded({extended: true}));
+// console.log("urlencoded: "+bodyParser.urlencoded({extended: true}));
 
 // init web routes
 initWebRoutes(app);
