@@ -8,7 +8,7 @@ const
   request = require('request'),
   express = require('express'),
   { urlencoded, json } = require('body-parser'),
-  initWebRoutes = require('./routes/router');
+  initWebRoutes = require('./routes/router'),
   app = express();
 
 // Parse application/x-www-form-urlencoded

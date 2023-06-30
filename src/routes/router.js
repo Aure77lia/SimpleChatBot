@@ -1,5 +1,6 @@
-import express from "express";
-import chatbotController from "../controller/chatbotController";
+const 
+    chatbotController = require('../controller/chatbotController'),
+    express = require('express');
 
 let router = express.Router();
 
