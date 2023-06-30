@@ -93,16 +93,32 @@ async function handleMessage(senderPsid, receivedMessage) {
   if (receivedMessage.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of your request to the Send API
-    // const response = await fetch("/generate",{
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({animal: animalInput}),
-    // });
-    response = {
-      'text': `You sent the message: '${receivedMessage.text}'. Now send me an attachment!`
-    };
+    
+    event.preventDefault();
+    try {
+      const response = await fetch("/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ animal: animalInput }),
+      });
+
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw data.error || new Error(`Request failed with status ${response.status}`);
+      }
+
+      setResult(data.result);
+      setAnimalInput("");
+    } catch(error) {
+      // Consider implementing your own error handling logic here
+      console.error(error);
+      alert(error.message);
+    }
+    // response = {
+    //   'text': `You sent the message: '${receivedMessage.text}'. Now send me an attachment!`
+    // };
   } else if (receivedMessage.attachments) {
 
     // Get the URL of the message attachment
