@@ -94,7 +94,6 @@ async function handleMessage(senderPsid, receivedMessage) {
     // Create the payload for a basic text message, which
     // will be added to the body of your request to the Send API
     
-    event.preventDefault();
     try {
       const response = await fetch("/generate", {
         method: "POST",
