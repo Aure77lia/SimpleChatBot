@@ -2,13 +2,13 @@
 
 // Use dotenv to read .env vars into Node
 require('dotenv').config();
-import initWebRoutes from "./routes/router";
 
 // Imports dependencies and set up http server
 const
   request = require('request'),
   express = require('express'),
   { urlencoded, json } = require('body-parser'),
+  initWebRoutes = require('./routes/router');
   app = express();
 
 // Parse application/x-www-form-urlencoded
