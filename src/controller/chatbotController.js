@@ -1,7 +1,15 @@
 const
-  request = require('request');
+request = require('request'),
+express = require('express'),
+{chatCompletion} = require('./openaiController'),
+axios = require('axios');
 
-  
+require('dotenv').config();
+
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+const PAGE_ID = process.env.PAGE_ID;
+
 let test = (_req, res) => {
     res.send('Hello World');
   };
@@ -10,7 +18,6 @@ let test = (_req, res) => {
 let getWebhook = ('/webhook', (req, res) => {
 
     // Your verify token. Should be a random string.
-    const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
   
     // Parse the query params
     let mode = req.query['hub.mode'];
@@ -35,31 +42,22 @@ let getWebhook = ('/webhook', (req, res) => {
   });
 
   // Creates the endpoint for your webhook
-let postWebhook = ('/webhook', (req, res) => {
+let postWebhook = ('/webhook', async (req, res) => {
     let body = req.body;
   
     // Checks if this is an event from a page subscription
     if (body.object === 'page') {
   
-      // Iterates over each entry - there may be multiple if batched
-      body.entry.forEach(function(entry) {
-  
-        // Gets the body of the webhook event
-        let webhookEvent = entry.messaging[0];
-        console.log(webhookEvent);
-  
-        // Get the sender PSID
-        let senderPsid = webhookEvent.sender.id;
-        console.log('Sender PSID: ' + senderPsid);
-  
-        // Check if the event is a message or postback and
-        // pass the event to the appropriate handler function
-        if (webhookEvent.message) {
-          handleMessage(senderPsid, webhookEvent.message);
-        } else if (webhookEvent.postback) {
-          handlePostback(senderPsid, webhookEvent.postback);
-        }
-      });
+      try {
+        let body = req.body;
+        let requestType = body.object;
+        let senderId = body.entry[0].messaging[0].sender.id;
+        let query = body.entry[0].messaging[0].message.text;
+        let result = await chatCompletion(query);
+        await handleMessage(senderId, result.response);
+      } catch (error) {
+        console.log(error);
+      }
   
       // Returns a '200 OK' response to all requests
       res.status(200).send('EVENT_RECEIVED');
@@ -77,41 +75,25 @@ async function handleMessage(senderPsid, receivedMessage) {
   
     // Checks if the message contains text
     if (receivedMessage.text) {
-      // Create the payload for a basic text message, which
-      // will be added to the body of your request to the Send API
+        let options = {
+            method: 'POST',
+            url: `https://graph.facebook.com/v11.0/${PAGE_ID}/messages`,
+            params: {
+              access_token: PAGE_ACCESS_TOKEN,
+              recipient: JSON.stringify({'id': senderPsid}),
+              messaging_type: 'RESPONSE',
+              message: JSON.stringify({'text': receivedMessage})
+            }
+          };
+          
+          response = await axios.request(options);
       
-      response = {
-        'text': `You sent the message: '${receivedMessage.text}'. Now send me an attachment!`
-      };
-    } else if (receivedMessage.attachments) {
-  
-      // Get the URL of the message attachment
-      let attachmentUrl = receivedMessage.attachments[0].payload.url;
-      response = {
-        'attachment': {
-          'type': 'template',
-          'payload': {
-            'template_type': 'generic',
-            'elements': [{
-              'title': 'Is this the right picture?',
-              'subtitle': 'Tap a button to answer.',
-              'image_url': attachmentUrl,
-              'buttons': [
-                {
-                  'type': 'postback',
-                  'title': 'Yes!',
-                  'payload': 'yes',
-                },
-                {
-                  'type': 'postback',
-                  'title': 'No!',
-                  'payload': 'no',
-                }
-              ],
-            }]
+          if (response['status'] == 200 && response['statusText'] === 'OK') {
+              return 1;
+          } else {
+              return 0;
           }
-        }
-      };
+
     }
   
     // Send the response message
@@ -139,7 +121,6 @@ async function handleMessage(senderPsid, receivedMessage) {
   function callSendAPI(senderPsid, response) {
   
     // The page access token we have generated in your app settings
-    const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
   
     // Construct the message body
     let requestBody = {
