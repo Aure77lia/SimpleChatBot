@@ -87,17 +87,17 @@ async function handleMessage(senderPsid, receivedMessage) {
           };
           
           response = await axios.request(options);
+          console.log(response);
       
           if (response['status'] == 200 && response['statusText'] === 'OK') {
-              return 1;
+            // Send the response message
+            callSendAPI(senderPsid, response);
           } else {
-              return 0;
+              console.error("message could not be sent");
           }
 
     }
   
-    // Send the response message
-    callSendAPI(senderPsid, response);
   }
   
   // Handles messaging_postbacks events
