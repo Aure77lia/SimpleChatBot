@@ -1,23 +1,39 @@
 {
-  "name": "bourguibot",
+  "name": "original-coast-clothing",
   "version": "1.0.0",
-  "description": "A simple chatBot on messenger who knows everything about the \"bourguignon\".",
-  "main": "server.js",
+  "description": "A sample app to show how to build a great Messenger experience!",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/server.js"
+    "start": "node app.js",
+    "lint": "./node_modules/.bin/eslint ."
   },
-  "author": "Aurelia Gomes",
-  "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.22.5",
-    "@babel/node": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.3.1",
-    "ejs": "^3.1.9",
-    "express": "^4.18.2",
-    "nodemon": "^2.0.22",
-    "request": "^2.88.2"
+    "ansi-regex": "^6.0.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.1.0",
+    "ejs": "^3.1.8",
+    "express": "^4.17.1",
+    "i18n": "^0.8.3",
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7"
+  },
+  "engines": {
+    "node": ">=12.0"
+  },
+  "repository": {
+    "url": "https://github.com/fbsamples/original-coast-clothing"
+  },
+  "author": "Facebook",
+  "license": "ISC",
+  "keywords": [
+    "messenger",
+    "webhook"
+  ],
+  "devDependencies": {
+    "ejs-lint": "^1.2.2",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1"
   }
 }
