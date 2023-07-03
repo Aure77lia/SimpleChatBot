@@ -72,31 +72,31 @@ let postWebhook = ('/webhook', async (req, res) => {
 // Handles messages events
 async function handleMessage(senderPsid, receivedMessage) {
     let response;
+    console.log("handle message start");
   
     // Checks if the message contains text
-    if (receivedMessage.text) {
-        let options = {
-            method: 'POST',
-            url: `https://graph.facebook.com/v11.0/${PAGE_ID}/messages`,
-            params: {
-              access_token: PAGE_ACCESS_TOKEN,
-              recipient: JSON.stringify({'id': senderPsid}),
-              messaging_type: 'RESPONSE',
-              message: JSON.stringify({'text': receivedMessage})
-            }
-          };
-          
-          response = await axios.request(options);
-          console.log(response);
+    let options = {
+        method: 'POST',
+        url: `https://graph.facebook.com/v11.0/${PAGE_ID}/messages`,
+        params: {
+          access_token: PAGE_ACCESS_TOKEN,
+          recipient: JSON.stringify({'id': senderPsid}),
+          messaging_type: 'RESPONSE',
+          message: JSON.stringify({'text': receivedMessage})
+        }
+      };
       
-          if (response['status'] == 200 && response['statusText'] === 'OK') {
-            // Send the response message
-            callSendAPI(senderPsid, response);
-          } else {
-              console.error("message could not be sent");
-          }
+      response = await axios.request(options);
+      console.log(response);
+  
+      if (response['status'] == 200 && response['statusText'] === 'OK') {
+        // Send the response message
+        callSendAPI(senderPsid, response);
+      } else {
+          console.error("message could not be sent");
+      }
 
-    }
+    
   
   }
   
