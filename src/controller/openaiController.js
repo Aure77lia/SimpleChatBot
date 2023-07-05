@@ -6,7 +6,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const chatCompletion = async (req,res) => {
+const chatCompletion = async (query,res) => {
     // console.log("start chatCompletion: "+query+"api key: "+configuration.apiKey);
     
     if (!configuration.apiKey) {
@@ -21,9 +21,9 @@ const chatCompletion = async (req,res) => {
     try {
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            messages: [{role: "user", content: req}],
+            messages: [{role: "user", content: query}],
         });
-        res.status(200).json({ result: completion.data.choices[0].text });
+        res.sendStatus(200);
         let content = chatCompletion.data.choices[0].message.content;
         console.log("chatCompletion content from response: "+ content);
 
@@ -44,10 +44,6 @@ const chatCompletion = async (req,res) => {
             }
             });
         }
-        return {
-            status: 0,
-            response: "An error occured."
-        };
     }
 };
 
