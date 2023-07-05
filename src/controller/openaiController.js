@@ -6,7 +6,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const chatCompletion = async (req) => {
+const chatCompletion = async (req,res) => {
     // console.log("start chatCompletion: "+query+"api key: "+configuration.apiKey);
     
     if (!configuration.apiKey) {
