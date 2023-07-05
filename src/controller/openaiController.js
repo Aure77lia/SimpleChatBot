@@ -23,7 +23,6 @@ const chatCompletion = async (query,res) => {
             model: "gpt-3.5-turbo",
             messages: [{role: "user", content: query}],
         });
-        res.sendStatus(200);
         let content = chatCompletion.data.choices[0].message.content;
         console.log("chatCompletion content from response: "+ content);
 
