@@ -6,23 +6,15 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const chatCompletion = async (query,res) => {
-    // console.log("start chatCompletion: "+query+"api key: "+configuration.apiKey);
-    
-    if (!configuration.apiKey) {
-        res.status(500).json({
-        error: {
-            message: "OpenAI API key not configured, please follow instructions in README.md",
-        }
-        });
-        return;
-    }
+const chatCompletion = async (query) => {
+    console.log("start chatCompletion: "+query+"api key: "+configuration.apiKey);
 
     try {
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [{role: "user", content: query}],
         });
+
         let content = chatCompletion.data.choices[0].message.content;
         console.log("chatCompletion content from response: "+ content);
 
@@ -31,18 +23,10 @@ const chatCompletion = async (query,res) => {
             response: content
         };
     } catch (error) {
-        // Consider adjusting the error handling logic for your use case
-        if (error.response) {
-            console.error(error.response.status, error.response.data);
-            res.status(error.response.status).json(error.response.data);
-        } else {
-            console.error(`Error with OpenAI API request: ${error.message}`);
-            res.status(500).json({
-            error: {
-                message: 'An error occurred during your request.',
-            }
-            });
-        }
+        return {
+            status: 0,
+            response: 'an arror occured'
+        };
     }
 };
 
