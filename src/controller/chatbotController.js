@@ -84,7 +84,7 @@ async function handleMessage(senderPsid, receivedMessage) {
 
     if (receivedMessage.status) {
       // Send the response message
-        callSendAPI(senderPsid, receivedMessage.response);
+        await callSendAPI(senderPsid, receivedMessage.response);
     } else {
         console.error("message could not be sent");
     }
@@ -96,7 +96,7 @@ async function handleMessage(senderPsid, receivedMessage) {
     try{
       let options = {
         method: 'POST',
-        url: `https://graph.facebook.com/v17.0/${PAGE_ID}/messages`,
+        url: `https://graph.facebook.com/v17.0/me/messages`,
         params: {
           access_token: PAGE_ACCESS_TOKEN,
           recipient: JSON.stringify({'id': senderPsid}),
