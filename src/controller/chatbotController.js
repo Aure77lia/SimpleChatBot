@@ -24,18 +24,23 @@ let getWebhook = ('/webhook', (req, res) => {
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
   
+    console.log("start get webhook");
     // Checks if a token and mode is in the query string of the request
     if (mode && token) {
-  
+      console.log("get webhook first if")
       // Checks the mode and token sent is correct
       if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-  
         // Responds with the challenge token from the request
         console.log('WEBHOOK_VERIFIED');
         res.status(200).send(challenge);
   
       } else {
         // Responds with '403 Forbidden' if verify tokens do not match
+        console.log("error with token");
+        console.log("informations sent: ");
+        console.log("mode: "+mode);
+        console.log("token: "+token);
+        console.log("challenge: "+challenge);
         res.sendStatus(403);
       }
     }
@@ -44,6 +49,7 @@ let getWebhook = ('/webhook', (req, res) => {
   // Creates the endpoint for your webhook
 let postWebhook = ('/webhook', async (req, res) => {
     let body = req.body;
+    console.log("postwebhook start");
   
     // Checks if this is an event from a page subscription
     if (body.object === 'page') {
@@ -51,9 +57,11 @@ let postWebhook = ('/webhook', async (req, res) => {
       try {
         let body = req.body;
         let requestType = body.object;
+        console.log("request type: "+requestType);
         let senderId = body.entry[0].messaging[0].sender.id;
         let query = body.entry[0].messaging[0].message.text;
         let result = await chatCompletion(query);
+        console.log("result: "+result);
         await handleMessage(senderId, result.response);
       } catch (error) {
         console.log(error);

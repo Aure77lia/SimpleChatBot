@@ -7,6 +7,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const chatCompletion = async (prompt) => {
+    console.log("start chatCompletion");
 
     try {
         const response = await openai.createChatCompletion(
@@ -18,8 +19,10 @@ const chatCompletion = async (prompt) => {
                 ]
             }
         );
+        console.log("chatCompletion response : "+response);
 
         let content = response.data.choices[0].message.content;
+        console.log("chatCompletion content from response: "+ content);
 
         return {
             status: 1,
@@ -28,7 +31,7 @@ const chatCompletion = async (prompt) => {
     } catch (error) {
         return {
             status: 0,
-            response: ''
+            response: 'message error'
         };
     }
 };
