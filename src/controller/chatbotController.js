@@ -24,10 +24,9 @@ let getWebhook = ('/webhook', (req, res) => {
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
   
-    console.log("start get webhook");
+    // console.log("getWebhook: start");
     // Checks if a token and mode is in the query string of the request
     if (mode && token) {
-      console.log("get webhook first if")
       // Checks the mode and token sent is correct
       if (mode === 'subscribe' && token === VERIFY_TOKEN) {
         // Responds with the challenge token from the request
@@ -36,11 +35,6 @@ let getWebhook = ('/webhook', (req, res) => {
   
       } else {
         // Responds with '403 Forbidden' if verify tokens do not match
-        console.log("error with token");
-        console.log("informations sent: ");
-        console.log("mode: "+mode);
-        console.log("token: "+token);
-        console.log("challenge: "+challenge);
         res.sendStatus(403);
       }
     }
@@ -49,7 +43,7 @@ let getWebhook = ('/webhook', (req, res) => {
   // Creates the endpoint for your webhook
 let postWebhook = ('/webhook', async (req, res) => {
     let body = req.body;
-    console.log("postwebhook start");
+    // console.log("postwebhook: start");
   
     // Checks if this is an event from a page subscription
     if (body.object === 'page') {
@@ -57,12 +51,11 @@ let postWebhook = ('/webhook', async (req, res) => {
       try {
         let body = req.body;
         let requestType = body.object;
-        console.log("request type: "+requestType);
         let senderId = body.entry[0].messaging[0].sender.id;
         let query = body.entry[0].messaging[0].message.text;
-        let result = await chatCompletion(query);
-        console.log("post result: "+result.response);
-        await handleMessage(senderId, result.response);
+        await chatCompletion(query,res);
+        await handleMessage(senderId, res.result.content);
+
       } catch (error) {
         console.log(error);
       }
@@ -80,7 +73,7 @@ let postWebhook = ('/webhook', async (req, res) => {
 // Handles messages events
 async function handleMessage(senderPsid, receivedMessage) {
     let response;
-    console.log("handle message start: "+receivedMessage);
+    // console.log("handleMessage: start: "+receivedMessage);
   
     // Checks if the message contains text
     let options = {
@@ -95,13 +88,12 @@ async function handleMessage(senderPsid, receivedMessage) {
     };
     
     response = await axios.request(options);
-    console.log(response);
 
     if (response['status'] == 200 && response['statusText'] === 'OK') {
       // Send the response message
       callSendAPI(senderPsid, response);
     } else {
-        console.error("message could not be sent");
+        console.error("handleMessage: message could not be sent");
     }
   
   }
