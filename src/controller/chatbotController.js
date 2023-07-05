@@ -57,11 +57,10 @@ let postWebhook = ('/webhook', async (req, res) => {
       try {
         let body = req.body;
         let requestType = body.object;
-        console.log("request type: "+requestType);
         let senderId = body.entry[0].messaging[0].sender.id;
         let query = body.entry[0].messaging[0].message.text;
         let result = await chatCompletion(query);
-        console.log("post result: "+result.response);
+        console.log("postwebhook: result: "+result.response);
         await handleMessage(senderId, result);
 
       } catch (error) {
@@ -81,11 +80,11 @@ let postWebhook = ('/webhook', async (req, res) => {
   
 // Handles messages events
 async function handleMessage(senderPsid, receivedMessage) {
-    console.log("handle message start: "+receivedMessage);    
+    console.log("handle message start: "+receivedMessage.response);    
 
     if (receivedMessage.status) {
       // Send the response message
-      callSendAPI(senderPsid, receivedMessage.response);
+        callSendAPI(senderPsid, receivedMessage.response);
     } else {
         console.error("message could not be sent");
     }
@@ -93,8 +92,7 @@ async function handleMessage(senderPsid, receivedMessage) {
   }
   
   // Sends response messages via the Send API
-  function callSendAPI(senderPsid, response) {
-  
+  function callSendAPI(senderPsid, response) {  
     // The page access token we have generated in your app settings
   
     // Construct the message body
@@ -107,7 +105,7 @@ async function handleMessage(senderPsid, receivedMessage) {
   
     // Send the HTTP request to the Messenger Platform
     request({
-      'uri': 'https://graph.facebook.com/v17.0/${PAGE_ID}/messages',
+      'uri': 'https://graph.facebook.com/v17.0/me/messages',
       'qs': { 'access_token': PAGE_ACCESS_TOKEN },
       'method': 'POST',
       'json': requestBody
