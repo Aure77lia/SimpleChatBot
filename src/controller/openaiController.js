@@ -14,7 +14,8 @@ const chatCompletion = async (prompt) => {
             {
                 model: 'gpt-3.5-turbo',
                 messages: [
-                    { "role": "user", "content": prompt }
+                    { role: "system", content: "You are a helpful assistant." },
+                    { role: "user", content: prompt }
                 ]
             }
         );
@@ -30,7 +31,7 @@ const chatCompletion = async (prompt) => {
     } catch (error) {
         return {
             status: 0,
-            response: 'message error'
+            response: 'an arror occured'
         };
     }
 };
