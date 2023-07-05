@@ -93,47 +93,47 @@ async function handleMessage(senderPsid, receivedMessage) {
   
   // Sends response messages via the Send API
   async function callSendAPI(senderPsid, response) {
-    try{
-      let options = {
-        method: 'POST',
-        url: `https://graph.facebook.com/v17.0/me/messages`,
-        params: {
-          access_token: PAGE_ACCESS_TOKEN,
-          recipient: JSON.stringify({'id': senderPsid}),
-          messaging_type: 'RESPONSE',
-          message: JSON.stringify({'text': response})
-        }
-      };
+    // try{
+    //   let options = {
+    //     method: 'POST',
+    //     url: `https://graph.facebook.com/v17.0/${PAGE_ID}/messages`,
+    //     params: {
+    //       access_token: PAGE_ACCESS_TOKEN,
+    //       recipient: JSON.stringify({'id': senderPsid}),
+    //       messaging_type: 'RESPONSE',
+    //       message: JSON.stringify({'text': response})
+    //     }
+    //   };
       
-      response = await axios.request(options);
-    }catch(error){
-      console.log("handleMessage: an error occured while handling the request");
-      console.error(error);
-    }
+    //   response = await axios.request(options);
+    // }catch(error){
+    //   console.log("handleMessage: an error occured while handling the request");
+    //   console.error(error);
+    // }
   
     // The page access token we have generated in your app settings
   
     // Construct the message body
-    // let requestBody = {
-    //   'recipient': {
-    //     'id': senderPsid
-    //   },
-    //   'message': response
-    // };
+    let requestBody = {
+      'recipient': {
+        'id': senderPsid
+      },
+      'message': response
+    };
   
-    // // Send the HTTP request to the Messenger Platform
-    // request({
-    //   'uri': 'https://graph.facebook.com/v17.0/me/messages',
-    //   'qs': { 'access_token': PAGE_ACCESS_TOKEN },
-    //   'method': 'POST',
-    //   'json': requestBody
-    // }, (err, _res, _body) => {
-    //   if (!err) {
-    //     console.log('Message sent!');
-    //   } else {
-    //     console.error('Unable to send message:' + err);
-    //   }
-    // });
+    // Send the HTTP request to the Messenger Platform
+    request({
+      'uri': 'https://graph.facebook.com/v17.0/me/messages',
+      'qs': { 'access_token': PAGE_ACCESS_TOKEN },
+      'method': 'POST',
+      'json': requestBody
+    }, (err, _res, _body) => {
+      if (!err) {
+        console.log('Message sent!');
+      } else {
+        console.error('Unable to send message:' + err);
+      }
+    });
   }
   
 
