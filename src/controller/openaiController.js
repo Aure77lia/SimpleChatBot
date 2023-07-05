@@ -23,8 +23,14 @@ const chatCompletion = async (req,res) => {
             model: "gpt-3.5-turbo",
             messages: [{role: "user", content: req}],
         });
-        res.status(200).json({ result: chatCompletion.data.choices[0].message});
-        console.log("message sent: "+ res.result);
+        res.status(200).json({ result: completion.data.choices[0].text });
+        let content = chatCompletion.data.choices[0].message.content;
+        console.log("chatCompletion content from response: "+ content);
+
+        return {
+            status: 1,
+            response: content
+        };
     } catch (error) {
         // Consider adjusting the error handling logic for your use case
         if (error.response) {
@@ -38,6 +44,10 @@ const chatCompletion = async (req,res) => {
             }
             });
         }
+        return {
+            status: 0,
+            response: "An error occured."
+        };
     }
 };
 
