@@ -86,8 +86,11 @@ async function handleMessage(senderPsid, receivedMessage) {
         message: JSON.stringify({'text': receivedMessage})
       }
     };
-    
-    response = await axios.request(options);
+    try{
+        response = await axios.request(options);
+      }catch(error){
+        console.error("handleMessage error: "+error);
+      }
 
     if (response['status'] == 200 && response['statusText'] === 'OK') {
       // Send the response message
@@ -99,21 +102,21 @@ async function handleMessage(senderPsid, receivedMessage) {
   }
   
   // Handles messaging_postbacks events
-  function handlePostback(senderPsid, receivedPostback) {
-    let response;
+  // function handlePostback(senderPsid, receivedPostback) {
+  //   let response;
   
-    // Get the payload for the postback
-    let payload = receivedPostback.payload;
+  //   // Get the payload for the postback
+  //   let payload = receivedPostback.payload;
   
-    // Set the response based on the postback payload
-    if (payload === 'yes') {
-      response = { 'text': 'Thanks!' };
-    } else if (payload === 'no') {
-      response = { 'text': 'Oops, try sending another image.' };
-    }
-    // Send the message to acknowledge the postback
-    callSendAPI(senderPsid, response);
-  }
+  //   // Set the response based on the postback payload
+  //   if (payload === 'yes') {
+  //     response = { 'text': 'Thanks!' };
+  //   } else if (payload === 'no') {
+  //     response = { 'text': 'Oops, try sending another image.' };
+  //   }
+  //   // Send the message to acknowledge the postback
+  //   callSendAPI(senderPsid, response);
+  // }
   
   // Sends response messages via the Send API
   function callSendAPI(senderPsid, response) {
