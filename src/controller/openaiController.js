@@ -10,14 +10,13 @@ const chatCompletion = async (query) => {
     console.log("start chatCompletion: "+query);
 
     try {
-        const response = await openai.createChatCompletion(
-            {
-                model: 'gpt-3.5-turbo',
-                messages: [{ role: "user", content: "Hello world" }]
-            });
-        console.log("chatCompletion response : "+response);
+        const chatCompletion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [{role: "user", content: "Hello world"}],
+        });
+        console.log("chatCompletion response : "+chatCompletion.data.choices[0].message);
 
-        let content = response.data.choices[0].message.content;
+        let content = chatCompletion.data.choices[0].message;
         console.log("chatCompletion content from response: "+ content);
 
         return {
