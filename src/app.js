@@ -18,11 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 // Parse application/json
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log(`Path ${req.path} with Method ${req.method}`);
-  next();
-});
-
 initWebRoutes(app);
 
 // listen for requests :)
