@@ -16,7 +16,7 @@ const chatCompletion = async (query) => {
         });
         console.log("chatCompletion response : "+chatCompletion.data.choices[0].message);
 
-        let content = chatCompletion.data.choices[0].message;
+        let content = chatCompletion.data.choices[0].message.content;
         console.log("chatCompletion content from response: "+ content);
 
         return {
