@@ -7,19 +7,24 @@ require('dotenv').config();
 const
   express = require('express'),
   { urlencoded, json } = require('body-parser'),
-  initWebRoutes = require('./routes/router'),
-  app = express();
+  router = require('./routes/router'),
+  app = express(),
+  PORT = process.env.PORT || 8080;
 
 // Parse application/x-www-form-urlencoded
-app.use(urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // Parse application/json
-app.use(json());
+app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(`Path ${req.path} with Method ${req.method}`);
+  next();
+});
 
 initWebRoutes(app);
-// Respond with 'Hello World' when a GET request is made to the homepage
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function() {
+var listener = app.listen(PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
