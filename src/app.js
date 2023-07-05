@@ -8,6 +8,7 @@ const
   express = require('express'),
   { urlencoded, json } = require('body-parser'),
   router = require('./routes/router'),
+  initWebRoutes = require("./routes/router"),
   app = express(),
   PORT = process.env.PORT || 8080;
 
