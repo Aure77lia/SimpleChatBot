@@ -60,8 +60,8 @@ let postWebhook = ('/webhook', async (req, res) => {
         let senderId = body.entry[0].messaging[0].sender.id;
         let query = body.entry[0].messaging[0].message.text;
         let result = await chatCompletion(query);
-        console.log("postwebhook: result: "+result.response);
         await handleMessage(senderId, result);
+        res.status(200).send('EVENT_RECEIVED');
 
       } catch (error) {
         console.log("postwebhook: an error occured");
@@ -69,7 +69,6 @@ let postWebhook = ('/webhook', async (req, res) => {
       }
   
       // Returns a '200 OK' response to all requests
-      res.status(200).send('EVENT_RECEIVED');
     } else {
   
       // Returns a '404 Not Found' if event is not from a page subscription
@@ -80,7 +79,7 @@ let postWebhook = ('/webhook', async (req, res) => {
   
 // Handles messages events
 async function handleMessage(senderPsid, receivedMessage) {
-    console.log("handle message start: "+receivedMessage.response);    
+    console.log("handle message start");    
 
     if (receivedMessage.status) {
       // Send the response message
