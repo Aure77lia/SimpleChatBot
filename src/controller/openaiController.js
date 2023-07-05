@@ -7,7 +7,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const chatCompletion = async (query) => {
-    console.log("start chatCompletion: "+query);
+    console.log("start chatCompletion: "+query+"api key: "+configuration.apiKey);
 
     try {
         const chatCompletion = await openai.createChatCompletion({
