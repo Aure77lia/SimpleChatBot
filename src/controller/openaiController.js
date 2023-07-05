@@ -24,7 +24,7 @@ const chatCompletion = async (req,res) => {
             messages: [{role: "user", content: req}],
         });
         res.status(200).json({ result: chatCompletion.data.choices[0].message});
-        console.log("message sent: "+ res.result.content);
+        console.log("message sent: "+ res.result);
     } catch (error) {
         // Consider adjusting the error handling logic for your use case
         if (error.response) {
