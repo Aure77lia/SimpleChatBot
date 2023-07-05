@@ -64,7 +64,8 @@ let postWebhook = ('/webhook', async (req, res) => {
         console.log("post result: "+result.response);
         await handleMessage(senderId, result.response);
       } catch (error) {
-        console.log(error);
+        console.log("postwebhook: an error occured");
+        // console.log(error);
       }
   
       // Returns a '200 OK' response to all requests
@@ -95,7 +96,6 @@ async function handleMessage(senderPsid, receivedMessage) {
     };
     
     response = await axios.request(options);
-    console.log(response);
 
     if (response['status'] == 200 && response['statusText'] === 'OK') {
       // Send the response message
