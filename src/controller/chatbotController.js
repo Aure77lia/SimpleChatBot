@@ -62,7 +62,7 @@ let postWebhook = ('/webhook', async (req, res) => {
         let query = body.entry[0].messaging[0].message.text;
         let result = await chatCompletion(query);
         console.log("post result: "+result.response);
-        await handleMessage(senderId, result.response);
+        await handleMessage(senderId, result);
 
       } catch (error) {
         console.log("postwebhook: an error occured");
@@ -81,53 +81,15 @@ let postWebhook = ('/webhook', async (req, res) => {
   
 // Handles messages events
 async function handleMessage(senderPsid, receivedMessage) {
-    let response;
-    console.log("handle message start: "+receivedMessage);
-  
-    try{
-      let options = {
-        method: 'POST',
-        url: `https://graph.facebook.com/v17.0/${PAGE_ID}/messages`,
-        params: {
-          access_token: PAGE_ACCESS_TOKEN,
-          recipient: JSON.stringify({'id': senderPsid}),
-          messaging_type: 'RESPONSE',
-          message: JSON.stringify({'text': receivedMessage})
-        }
-      };
-      
-      response = await axios.request(options);
-    }catch(error){
-      console.log("handleMessage: an error occured while handling the request");
-      console.error(error);
-    }
-    // Checks if the message contains text
-    
+    console.log("handle message start: "+receivedMessage);    
 
-    if (response['status'] == 200 && response['statusText'] === 'OK') {
+    if (receivedMessage.status) {
       // Send the response message
-      callSendAPI(senderPsid, response);
+      callSendAPI(senderPsid, receivedMessage.response);
     } else {
         console.error("message could not be sent");
     }
   
-  }
-  
-  // Handles messaging_postbacks events
-  function handlePostback(senderPsid, receivedPostback) {
-    let response;
-  
-    // Get the payload for the postback
-    let payload = receivedPostback.payload;
-  
-    // Set the response based on the postback payload
-    if (payload === 'yes') {
-      response = { 'text': 'Thanks!' };
-    } else if (payload === 'no') {
-      response = { 'text': 'Oops, try sending another image.' };
-    }
-    // Send the message to acknowledge the postback
-    callSendAPI(senderPsid, response);
   }
   
   // Sends response messages via the Send API
@@ -145,7 +107,7 @@ async function handleMessage(senderPsid, receivedMessage) {
   
     // Send the HTTP request to the Messenger Platform
     request({
-      'uri': 'https://graph.facebook.com/v2.6/me/messages',
+      'uri': 'https://graph.facebook.com/v17.0/${PAGE_ID}/messages',
       'qs': { 'access_token': PAGE_ACCESS_TOKEN },
       'method': 'POST',
       'json': requestBody
