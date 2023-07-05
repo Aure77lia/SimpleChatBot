@@ -6,18 +6,15 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const chatCompletion = async (prompt) => {
-    console.log("start chatCompletion");
+const chatCompletion = async (query) => {
+    console.log("start chatCompletion: "+query);
 
     try {
         const response = await openai.createChatCompletion(
             {
                 model: 'gpt-3.5-turbo',
-                messages: [
-                    { role: "user", content: "Hello world" }
-                ]
-            }
-        );
+                messages: [{ role: "user", content: "Hello world" }]
+            });
         console.log("chatCompletion response : "+response);
 
         let content = response.data.choices[0].message.content;
