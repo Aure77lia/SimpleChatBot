@@ -63,6 +63,7 @@ let postWebhook = ('/webhook', async (req, res) => {
         let result = await chatCompletion(query);
         console.log("post result: "+result.response);
         await handleMessage(senderId, result.response);
+
       } catch (error) {
         console.log("postwebhook: an error occured");
         // console.log(error);
@@ -83,19 +84,25 @@ async function handleMessage(senderPsid, receivedMessage) {
     let response;
     console.log("handle message start: "+receivedMessage);
   
+    try{
+      let options = {
+        method: 'POST',
+        url: `https://graph.facebook.com/v11.0/${PAGE_ID}/messages`,
+        params: {
+          access_token: PAGE_ACCESS_TOKEN,
+          recipient: JSON.stringify({'id': senderPsid}),
+          messaging_type: 'RESPONSE',
+          message: JSON.stringify({'text': receivedMessage})
+        }
+      };
+      
+      response = await axios.request(options);
+    }catch(error){
+      console.log("handleMessage: an error occured while hangle the request");
+      console.error(error);
+    }
     // Checks if the message contains text
-    let options = {
-      method: 'POST',
-      url: `https://graph.facebook.com/v11.0/${PAGE_ID}/messages`,
-      params: {
-        access_token: PAGE_ACCESS_TOKEN,
-        recipient: JSON.stringify({'id': senderPsid}),
-        messaging_type: 'RESPONSE',
-        message: JSON.stringify({'text': receivedMessage})
-      }
-    };
     
-    response = await axios.request(options);
 
     if (response['status'] == 200 && response['statusText'] === 'OK') {
       // Send the response message
