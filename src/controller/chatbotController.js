@@ -129,7 +129,7 @@ async function handleMessage(senderPsid, receivedMessage) {
       'json': requestBody
     }, (err, _res, _body) => {
       if (!err) {
-        console.log('Message sent!');
+        console.log('Message sent!'+ request);
       } else {
         console.error('Unable to send message:' + err);
       }
