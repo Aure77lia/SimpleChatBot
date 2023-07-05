@@ -72,10 +72,11 @@ let postWebhook = ('/webhook', async (req, res) => {
 // Handles messages events
 async function handleMessage(senderPsid, receivedMessage) {
     let response;
-    console.log("handle message start");
+    console.log("handle message start: "+receivedMessage);
   
     // Checks if the message contains text
-    let options = {
+    if (receivedMessage.text){
+      let options = {
         method: 'POST',
         url: `https://graph.facebook.com/v11.0/${PAGE_ID}/messages`,
         params: {
@@ -96,7 +97,7 @@ async function handleMessage(senderPsid, receivedMessage) {
           console.error("message could not be sent");
       }
 
-    
+    }
   
   }
   
