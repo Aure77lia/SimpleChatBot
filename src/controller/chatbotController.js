@@ -87,7 +87,7 @@ async function handleMessage(senderPsid, receivedMessage) {
     try{
       let options = {
         method: 'POST',
-        url: `https://graph.facebook.com/v11.0/${PAGE_ID}/messages`,
+        url: `https://graph.facebook.com/v17.0/${PAGE_ID}/messages`,
         params: {
           access_token: PAGE_ACCESS_TOKEN,
           recipient: JSON.stringify({'id': senderPsid}),
@@ -98,7 +98,7 @@ async function handleMessage(senderPsid, receivedMessage) {
       
       response = await axios.request(options);
     }catch(error){
-      console.log("handleMessage: an error occured while hangle the request");
+      console.log("handleMessage: an error occured while handling the request");
       console.error(error);
     }
     // Checks if the message contains text
