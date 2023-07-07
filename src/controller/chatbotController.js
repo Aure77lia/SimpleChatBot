@@ -1,4 +1,6 @@
 const
+request = require('request'),
+express = require('express'),
 {chatCompletion} = require('./openaiController'),
 axios = require('axios');
 
@@ -79,12 +81,12 @@ let postWebhook = ('/webhook', async (req, res) => {
 async function handleMessage(senderPsid, receivedMessage) {
     console.log("handle message start");    
 
-    // if (receivedMessage.status == 1) {
-    //   // Send the response message
-    await callSendAPI(senderPsid, receivedMessage.response);
-    // } else {
-    //     console.error("message could not be sent");
-    // }
+    if (receivedMessage.status) {
+      // Send the response message
+        await callSendAPI(senderPsid, receivedMessage.response);
+    } else {
+        console.error("message could not be sent");
+    }
   
   }
   
@@ -101,6 +103,30 @@ async function handleMessage(senderPsid, receivedMessage) {
     .catch(function (error) {
       console.log("handleMessage: "+error);
     });
+  
+    // The page access token we have generated in your app settings
+  
+    // Construct the message body
+    // let requestBody = {
+    //   'recipient': {
+    //     'id': senderPsid
+    //   },
+    //   'message': response
+    // };
+  
+    // // Send the HTTP request to the Messenger Platform
+    // request({
+    //   'uri': 'https://graph.facebook.com/v17.0/me/messages',
+    //   'qs': { 'access_token': PAGE_ACCESS_TOKEN },
+    //   'method': 'POST',
+    //   'json': requestBody
+    // }, (err, _res, _body) => {
+    //   if (!err) {
+    //     console.log('Message sent!'+ request);
+    //   } else {
+    //     console.error('Unable to send message:' + err);
+    //   }
+    // });
   }
   
 
