@@ -34,13 +34,6 @@
     "messenger",
     "webhook"
   ],
-  "devDependencies": {
-    "ejs-lint": "^1.2.2",
-    "eslint": "^8.24.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1"
-  },
   "bugs": {
     "url": "https://github.com/Aure77lia/bourguiBot/issues"
   },
