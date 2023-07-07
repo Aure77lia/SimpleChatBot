@@ -46,4 +46,4 @@ node app.js
 ```
 
 
-Your Bot is ready ! you can talk to you bot on messenger. Try sending a message to your page.
+Your Bot is ready ! you can talk to your bot on messenger. Try sending a message to your page.
