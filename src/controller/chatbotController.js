@@ -81,7 +81,7 @@ async function handleMessage(senderPsid, receivedMessage) {
 
     if (receivedMessage.status) {
       // Send the response message
-        await callSendAPI(senderPsid, receivedMessage.response);
+        callSendAPI(senderPsid, receivedMessage.response);
     } else {
         console.error("message could not be sent");
     }
