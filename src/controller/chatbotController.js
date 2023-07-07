@@ -1,6 +1,4 @@
 const
-request = require('request'),
-express = require('express'),
 {chatCompletion} = require('./openaiController'),
 axios = require('axios');
 

@@ -1,7 +1,7 @@
 {
-  "name": "bourguibot",
+  "name": "simplechatbot",
   "version": "1.0.0",
-  "description": "A little bot about the bourguignon",
+  "description": "A little bot, you can ask him anything.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
