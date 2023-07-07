@@ -79,7 +79,7 @@ let postWebhook = ('/webhook', async (req, res) => {
 async function handleMessage(senderPsid, receivedMessage) {
     console.log("handle message start");    
 
-    if (receivedMessage.status) {
+    if (receivedMessage.status == 1) {
       // Send the response message
         callSendAPI(senderPsid, receivedMessage.response);
     } else {
