@@ -35,7 +35,7 @@ const chatCompletion = async (query) => {
     } catch (error) {
         return {
             status: 0,
-            response: 'an arror occured'
+            response: 'an arror occured'+error
         };
     }
 };
