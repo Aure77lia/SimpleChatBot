@@ -5,45 +5,67 @@ A simple chatBot on messenger. You can ask him anything.
 
 1. You can git clone or download the files of the repo.
 
-2. This bot require Node.js, you can install it on the official link https://nodejs.org/en
+2. This bot requires Node.js, you can install it on the official link https://nodejs.org/en
 
-3. Your will need to setup a variables file. You can duplicate .env.example file and change its name for .env. You will need to setup the differents variables with those informations:
+3. You will need to setup a variables file. Duplicate `.env.example` and rename to `.env`. Set the variables below.
 
-### Port
-- you can setup on wich port your bot will run. The default value is 8080.
+### Variables importantes
 
-### PAGE_ACCESS_TOKEN
-- you will need a page access token. Follow those steps: 
-    - create a page that will be your bot (facebook -> create new page -> unable chat)
-    - go to meta for developers. Once connected with the same account as your new page, you will create a new app. Select "other", then choose "business". Choose a name for your app and create your new app.
-    - You will then add messenger in the product to add  to your page.
-    - then go to the parameters of messenger in your new app, scroll down and find "access token". Add you facebook page and generate a new token. That will be you access token.
+- PORT  
+  - Port sur lequel votre bot tourne (par défaut : 8080).
 
-### MY_VERIFY_TOKEN
-- You will need a verify token. It is a string you can generate yourself.
+- PAGE_ACCESS_TOKEN  
+  - Token d'accès de la page Facebook (voir les étapes Meta for Developers dans la section originale).
 
-### PAGE_ID
-- You can find you page id on your page on facebook. Go to about then to page transparency. You should find your page id.
+- MY_VERIFY_TOKEN  
+  - Token de verification webhook (string générée par vous).
 
-### OPENAI_API_KEY
-- You will also need an onpenai key. Go to openai platform and create or connect with an account. you can then go to your profile, then view API keys and generate a new api key. That will be your openAi key.
+- PAGE_ID  
+  - ID de votre page Facebook.
 
-4. On meta for developers, on your app you will need to change parameters. 
-    - In the webhook section, you will enter a new url. It will be the url that host your bot. The token required is your VERIFY_TOKEN.
-    - Once done, below a new section will appear. you will be able to choose when your bot will receive a notification. You will choose "messages".
+- OPENAI_API_KEY (optionnel)  
+  - Si vous utilisez encore l'API OpenAI.
 
-4. You can install your bot on a free server like Render. You will need to transfer your files and setup the variables of your .env file. In render, a section is made for those. On your server, there is section called environnement. You will be able to save your variables in this section.
+- GROK_API_KEY  
+  - Clé API pour groq-sdk (Grok). Ajoutez-la dans `.env` si vous utilisez Grok.
 
-5. To launch your server, you will need to install several packages. You can install them with this command:  
-```bash
-yarn 
+- GROK_SYSTEM_PROMPT  
+  - Texte qui sera envoyé en tant que message "system" à Grok (contexte / instructions globales pour le modèle).  
+  - Exemple : GROK_SYSTEM_PROMPT="You are a concise coding assistant. Answer in French."
+
+- MODEL_LLM  
+  - Nom du modèle à utiliser (ex: "grok-1" ou ce que votre fournisseur indique).
+
+Exemple minimal `.env` :
+```env
+PORT=8080
+PAGE_ACCESS_TOKEN=your_page_access_token
+MY_VERIFY_TOKEN=your_verify_token
+PAGE_ID=your_page_id
+GROK_API_KEY=sk-...
+GROK_SYSTEM_PROMPT=You are a concise coding assistant. Answer in French.
+MODEL_LLM=grok-1
 ```
 
-6. You can launch your server with this command: 
-
+4. Installation des dépendances  
 ```bash
-node app.js 
+yarn
+# ou
+npm install
+```
+Si vous utilisez Grok explicitement, assurez-vous que `groq-sdk` est installé (il peut déjà figurer dans package.json) :
+```bash
+yarn add groq-sdk
+# ou
+npm install groq-sdk
 ```
 
+5. Lancer le serveur  
+```bash
+node app.js
+```
 
-Your Bot is ready ! you can talk to your bot on messenger. Try sending a message to your page.
+Notes
+- Le projet envoie maintenant le contexte global à Grok via la variable `GROK_SYSTEM_PROMPT` (env). Cette valeur est ajoutée comme premier message avec le rôle "system" avant le message utilisateur.
+- Conservez `OPENAI_API_KEY` si vous utilisez à la fois OpenAI et Grok; sinon seules les variables GROK_* sont nécessaires.
+- Si besoin, je peux appliquer les modifications du README directement dans le dépôt.

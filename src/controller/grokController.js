@@ -1,0 +1,34 @@
+require('dotenv').config();
+const groq = require('groq-sdk');
+
+const client = new groq({apiKey: process.env.GROK_API_KEY});
+
+const chatCompletion = async (query) => {
+    console.log("start chatCompletion: "+query+" api key: "+configuration.apiKey);
+
+    try {
+        const chatCompletion = await client.chat.completions.create({
+            model: process.env.MODEL_LLM,
+            messages: [
+                {role: "system", content: process.env.GROK_SYSTEM_PROMPT},
+                {role: "user", content: query}],
+        });
+
+        let content = chatCompletion.choices[0].message.content;
+        console.log("chatCompletion content from response: "+ content);
+
+        return {
+            status: 1,
+            response: content
+        };
+    } catch (error) {
+        return {
+            status: 0,
+            response: 'an arror occured'
+        };
+    }
+};
+
+module.exports = {
+  chatCompletion
+};
