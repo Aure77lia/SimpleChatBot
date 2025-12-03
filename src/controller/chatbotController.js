@@ -59,6 +59,7 @@ let postWebhook = ('/webhook', async (req, res) => {
         let requestType = body.object;
         let senderId = body.entry[0].messaging[0].sender.id;
         let query = body.entry[0].messaging[0].message.text;
+        // console.log("postwebhook: senderId: "+senderId+" query: "+query);
         let result = await chatCompletion(query);
         await handleMessage(senderId, result);
         res.status(200).send('EVENT_RECEIVED');

@@ -4,7 +4,7 @@ const groq = require('groq-sdk');
 const client = new groq({apiKey: process.env.GROQ_API_KEY});
 
 const chatCompletion = async (query) => {
-    console.log("start chatCompletion: "+query+" api key: "+configuration.apiKey);
+    console.log("start chatCompletion: "+query+" api key: "+process.env.GROQ_API_KEY);
 
     try {
         const chatCompletion = await client.chat.completions.create({
