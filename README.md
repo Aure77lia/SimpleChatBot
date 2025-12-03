@@ -26,15 +26,15 @@ A simple chatBot on messenger. You can ask him anything.
 - OPENAI_API_KEY (optionnel)  
   - Si vous utilisez encore l'API OpenAI.
 
-- GROK_API_KEY  
-  - Clé API pour groq-sdk (Grok). Ajoutez-la dans `.env` si vous utilisez Grok.
+- GROQ_API_KEY  
+  - Clé API pour groq-sdk (Groq). Ajoutez-la dans `.env` si vous utilisez Groq.
 
-- GROK_SYSTEM_PROMPT  
-  - Texte qui sera envoyé en tant que message "system" à Grok (contexte / instructions globales pour le modèle).  
-  - Exemple : GROK_SYSTEM_PROMPT="You are a concise coding assistant. Answer in French."
+- GROQ_SYSTEM_PROMPT  
+  - Texte qui sera envoyé en tant que message "system" à Groq (contexte / instructions globales pour le modèle).  
+  - Exemple : GROQ_SYSTEM_PROMPT="You are a concise coding assistant. Answer in French."
 
 - MODEL_LLM  
-  - Nom du modèle à utiliser (ex: "grok-1" ou ce que votre fournisseur indique).
+  - Nom du modèle à utiliser (ex: "groq-1" ou ce que votre fournisseur indique).
 
 Exemple minimal `.env` :
 ```env
@@ -42,9 +42,9 @@ PORT=8080
 PAGE_ACCESS_TOKEN=your_page_access_token
 MY_VERIFY_TOKEN=your_verify_token
 PAGE_ID=your_page_id
-GROK_API_KEY=sk-...
-GROK_SYSTEM_PROMPT=You are a concise coding assistant. Answer in French.
-MODEL_LLM=grok-1
+GROQ_API_KEY=sk-...
+GROQ_SYSTEM_PROMPT=You are a concise coding assistant. Answer in French.
+MODEL_LLM=groq-1
 ```
 
 4. Installation des dépendances  
@@ -53,7 +53,7 @@ yarn
 # ou
 npm install
 ```
-Si vous utilisez Grok explicitement, assurez-vous que `groq-sdk` est installé (il peut déjà figurer dans package.json) :
+Si vous utilisez Groq explicitement, assurez-vous que `groq-sdk` est installé (il peut déjà figurer dans package.json) :
 ```bash
 yarn add groq-sdk
 # ou
@@ -66,6 +66,6 @@ node app.js
 ```
 
 Notes
-- Le projet envoie maintenant le contexte global à Grok via la variable `GROK_SYSTEM_PROMPT` (env). Cette valeur est ajoutée comme premier message avec le rôle "system" avant le message utilisateur.
-- Conservez `OPENAI_API_KEY` si vous utilisez à la fois OpenAI et Grok; sinon seules les variables GROK_* sont nécessaires.
+- Le projet envoie maintenant le contexte global à Groq via la variable `GROQ_SYSTEM_PROMPT` (env). Cette valeur est ajoutée comme premier message avec le rôle "system" avant le message utilisateur.
+- Conservez `OPENAI_API_KEY` si vous utilisez à la fois OpenAI et Groq; sinon seules les variables GROQ_* sont nécessaires.
 - Si besoin, je peux appliquer les modifications du README directement dans le dépôt.
