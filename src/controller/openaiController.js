@@ -2,17 +2,17 @@ require('dotenv').config();
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-    modelLlm: process.env.MODEL_LLM
+    apiKey: process.env.OPENAI_API_KEY
 });
 const openai = new OpenAIApi(configuration);
+
 
 const chatCompletion = async (query) => {
     console.log("start chatCompletion: "+query+" api key: "+configuration.apiKey);
 
     try {
         const chatCompletion = await openai.createChatCompletion({
-            model: configuration.modelLlm,
+            model: process.env.MODEL_LLM,
             messages: [{role: "user", content: query}],
         });
 
