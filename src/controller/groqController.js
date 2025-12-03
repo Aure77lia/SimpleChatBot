@@ -10,7 +10,7 @@ const chatCompletion = async (query) => {
         const chatCompletion = await client.chat.completions.create({
             model: process.env.MODEL_LLM,
             messages: [
-                // {role: "system", content: process.env.GROQ_SYSTEM_PROMPT},
+                {role: "system", content: process.env.GROQ_SYSTEM_PROMPT},
                 {role: "user", content: query}],
         });
 
