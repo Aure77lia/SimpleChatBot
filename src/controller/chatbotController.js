@@ -1,7 +1,7 @@
 const
 request = require('request'),
 express = require('express'),
-{chatCompletion} = require('./openaiController'),
+{chatCompletion} = require('./groqController'),
 axios = require('axios');
 
 require('dotenv').config();
@@ -81,12 +81,13 @@ let postWebhook = ('/webhook', async (req, res) => {
 async function handleMessage(senderPsid, receivedMessage) {
     console.log("handle message start"); 
 
-    // if (receivedMessage.status) {
-    //   // Send the response message
+    if (receivedMessage.status) {
+      // Send the response message
+      console.error("message to be sent: "+receivedMessage.response);
+    } else {
+      console.error("message could not be sent");
+    }
     await callSendAPI(senderPsid, receivedMessage.response);
-    // } else {
-    //     console.error("message could not be sent");
-    // }
   
   }
   
