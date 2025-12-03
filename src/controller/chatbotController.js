@@ -99,7 +99,7 @@ async function handleMessage(senderPsid, receivedMessage) {
         message: JSON.stringify({'text': response})
     };
     
-    response = await axios.post('https://graph.facebook.com/v17.0/'+PAGE_ID+'/messages',options)
+    response = await axios.post('https://graph.facebook.com/v21.0/'+PAGE_ID+'/messages',options)
     .catch(function (error) {
       console.log("handleMessage: "+error);
     });
