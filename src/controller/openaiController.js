@@ -3,6 +3,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
+    modelLlm: process.env.MODEL_LLM
 });
 const openai = new OpenAIApi(configuration);
 
@@ -11,7 +12,7 @@ const chatCompletion = async (query) => {
 
     try {
         const chatCompletion = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
+            model: configuration.modelLlm,
             messages: [{role: "user", content: query}],
         });
 

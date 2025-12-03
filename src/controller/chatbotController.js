@@ -79,7 +79,7 @@ let postWebhook = ('/webhook', async (req, res) => {
   
 // Handles messages events
 async function handleMessage(senderPsid, receivedMessage) {
-    console.log("handle message start");    
+    console.log("handle message start"); 
 
     if (receivedMessage.status) {
       // Send the response message
