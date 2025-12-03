@@ -50,14 +50,6 @@ MODEL_LLM=groq-1
 4. Installation des dépendances  
 ```bash
 yarn
-# ou
-npm install
-```
-Si vous utilisez Groq explicitement, assurez-vous que `groq-sdk` est installé (il peut déjà figurer dans package.json) :
-```bash
-yarn add groq-sdk
-# ou
-npm install groq-sdk
 ```
 
 5. Lancer le serveur  
